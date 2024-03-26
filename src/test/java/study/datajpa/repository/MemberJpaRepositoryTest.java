@@ -45,9 +45,7 @@ class MemberJpaRepositoryTest {
         assertThat(findMember1).isEqualTo(member1);
         assertThat(findMember2).isEqualTo(member2);
 
-        findMember1.setUsername("member!!!!!!!");
 
-/*
         //리스트 조회 검증
         List<Member> all = memberJpaRepository.findAll();
         assertThat(all.size()).isEqualTo(2);
@@ -63,7 +61,7 @@ class MemberJpaRepositoryTest {
         //카운트 검증
         long deletedCount = memberJpaRepository.count();
         assertThat(deletedCount).isEqualTo(0);
-*/
+
 
     }
 }
