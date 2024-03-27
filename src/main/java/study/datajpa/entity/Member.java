@@ -4,10 +4,15 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter @Setter // setter는 일반적으로 안씀..!
+@Getter
+@Setter // setter는 일반적으로 안씀..!
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자 기준
 // (team은 넣으면 무한루프뜰수 있으니 주의)
 @ToString(of = {"id", "username", "age"}) //객체 찍을때 나오는 출력값 저장하기
+@NamedQuery(
+        name = "Member.findByUsername",
+        query = "select m from Member m where m.username =:username"
+)
 public class Member {
 
     @Id
