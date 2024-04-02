@@ -229,4 +229,18 @@ class MemberRepositoryTest {
         }
     }
 
+    @Test
+    public void queryHint() {
+        Member member = new Member("member1", 10);
+        memberRepository.save(member);
+        em.flush(); // 얘는 결과를 DB에 동기화하는것
+        em.clear(); // 영속성 컨텍스트(1차캐시) 사라짐 -> DB에서 조회
+
+        //when
+        //실무에서는 이렇게 바로 꺼내면 큰일나요ㅎ
+        Member findMember = memberRepository.findReadOnlyByUsername("member1");
+        findMember.setUsername("member2");
+
+        em.flush();
+    }
 }
