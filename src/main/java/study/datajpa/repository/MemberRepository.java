@@ -1,8 +1,10 @@
 package study.datajpa.repository;
 
+import jakarta.persistence.Entity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -47,7 +49,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     List<Member> findByNames(@Param("names") List<String> names);
 
     List<Member> findListByUsername(String username); // 컬렉션
+
     Member findMemberByUsername(String username); // 단건
+
     Optional<Member> findOptionalByUsername(String username); // 단건 Optional
 
 //    Page<Member> findByAge(int age, Pageable pageable);
@@ -66,4 +70,18 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select m from Member m left join fetch m.team")
     List<Member> findMemberFetchJoin();
 
+    // -> 더 쉽게! 한방에 가져오는 방법
+    @Override
+    @EntityGraph(attributePaths = {"team"})
+    List<Member> findAll();
+
+    // JPQL에다가 EntityGraph를 넣을수 있음.
+    @EntityGraph(attributePaths = {"team"})
+    @Query("select m from Member m")
+    List<Member> findMemberEntityGraph();
+
+//    @EntityGraph(attributePaths = {"team"})
+    //@NamedEntityGraph(name = "Member.all", attributeNodes = @NamedAttributeNode("team"))가 entity에 있을경우
+    @EntityGraph("Member.all")
+    List<Member> findEntityGraphByUsername(@Param("username") String username);
 }

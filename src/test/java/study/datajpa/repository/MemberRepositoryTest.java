@@ -218,12 +218,14 @@ class MemberRepositoryTest {
 
         //when
         //select * from Member
-        List<Member> members = memberRepository.findAll();
+        List<Member> members = memberRepository.findEntityGraphByUsername("member1");
 
         for (Member member : members) {
             System.out.println("member = " + member.getUsername());
             // 이렇게 되버리면 N+1 문제가 생겨버림. 쿼리가 추가로 N개 나가야해서..!
+            System.out.println("member.teamClass = " + member.getTeam().getName());
             System.out.println("member.team = " + member.getTeam().getName());
+
         }
     }
 

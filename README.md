@@ -11,3 +11,6 @@ data jpa는 @Modifying(clearAutomatically = true)를 쓰면 em.clear를 안해�
 
 
 *패치조인!(@EntityGraph)*
+- 기본 형태 : @query를 써서 쿼리문 짜야함
+- JPA 사용시 (fetch) : 쿼리 짜고 join 뒤에 fetch를 써줌
+- @EntityGraph : attributePaths= {""} 쓰면 끝
