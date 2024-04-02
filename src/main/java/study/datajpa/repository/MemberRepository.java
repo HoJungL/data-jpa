@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import study.datajpa.dto.MemberDto;
@@ -51,7 +52,18 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 //    Page<Member> findByAge(int age, Pageable pageable);
 
-    @Query(value = "select m from Member as m left join m.team t",
+    // 이부분을 통해, 내가 개인적으로 countQuery를 만들 수 있음.
+    /*@Query(value = "select m from Member as m left join m.team t",
             countQuery = "select count(m.username) from Member m") // countQuery 분리 가능!!
+   */
     Page<Member> findByAge(int age, Pageable pageable);
+
+    @Modifying(clearAutomatically = true) // 이게 있어야 executeUpdate()를 인식함. 없으면 에러뜸
+    @Query("update Member as m set m.age = m.age+1 where m.age >= :age")
+    int bulkAgePlus(@Param("age") int age);
+
+    // fetch에서 member를 조회할때, 연관된 team을 한방에! 가져옴
+    @Query("select m from Member m left join fetch m.team")
+    List<Member> findMemberFetchJoin();
+
 }
