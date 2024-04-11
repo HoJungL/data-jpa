@@ -27,3 +27,23 @@ data jpa는 @Modifying(clearAutomatically = true)를 쓰면 em.clear를 안해�
 # Auditing
 속성을 테이블에 그냥 쓸수만 있게하는 방법 -> @MappedSuperclass
 (JpaBaseEntity 참고)
+
+# @EnableJpaAuditing
+스프링부트 설정 클래스에 적용을 해야  스프링 데이터 JPA가 실행이 됨.
+
+# @EntityListeners(AuditingEntityListener.class)
+엔티티에 적용을 해야함.
+
+# String 쓰는법
+    @CreatedBy
+    @Column(updatable = false)
+    private String createdBy;
+
+    @LastModifiedBy
+    private String lastModifiedBy;
+를 쓴 뒤에, Application에
+    @Bean
+    public AuditorAware<String> auditorProvider() {
+    return () -> Optional.of(UUID.randomUUID().toString());
+    }
+를 써야함!
