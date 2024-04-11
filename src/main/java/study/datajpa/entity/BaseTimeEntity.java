@@ -4,25 +4,22 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-//스프링 데이터 JPA를 사용하면?
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @Getter
-public class BaseEntity {
-    //등록자
-    @CreatedBy
+public class BaseTimeEntity extends BaseEntity{
+    //등록일
+    @CreatedDate
     @Column(updatable = false)
-    private String createdBy;
+    private LocalDateTime createdDate;
 
-    //수정자
-    @LastModifiedBy
-    private String lastModifiedBy;
+    //수정일
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
 }
