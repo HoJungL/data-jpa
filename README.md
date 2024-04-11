@@ -58,7 +58,7 @@ data jpa는 @Modifying(clearAutomatically = true)를 쓰면 em.clear를 안해�
 - 새로운 엔티티면 저장('persist')
 - 새로운 엔티티가 아니면 병합('merge')
 
-- --> 문자같은걸로 들어가면 merge로 인식해버림. 그러면 큰일남....
+- --> 문자같은걸로 들어가고 + @GenerateValue가 없으면 merge로 인식해버림. 그러면 큰일남....
 - --> Persistable해서 새로운 객체를 하나 만들어서 null로 생성햬야함.
 - 이부분은 ItemRepositoryTest 부분을 참고할것.
 
