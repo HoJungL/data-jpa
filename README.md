@@ -47,3 +47,22 @@ data jpa는 @Modifying(clearAutomatically = true)를 쓰면 em.clear를 안해�
     return () -> Optional.of(UUID.randomUUID().toString());
     }
 를 써야함!
+
+# Error 
+중요함. 이걸로 한시간 휘리릭.
+- DTO에 게터/세터 안쓰니까, map이 안먹힘. 반드시 map을 넣을것.
+- https://stackoverflow.com/questions/8367312/serializing-with-jackson-json-getting-no-serializer-found
+
+
+## save()메소드
+- 새로운 엔티티면 저장('persist')
+- 새로운 엔티티가 아니면 병합('merge')
+
+- --> 문자같은걸로 들어가면 merge로 인식해버림. 그러면 큰일남....
+- --> Persistable해서 새로운 객체를 하나 만들어서 null로 생성햬야함.
+- 이부분은 ItemRepositoryTest 부분을 참고할것.
+
+### 판단 기준
+- 식별자가 객체일때 null로 판단
+- 식별자가 자바 기본타입일때 0으로 판단
+- persistable  인터페이스를 구현해서 판단 로직 변경 가능.
